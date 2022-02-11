@@ -1,8 +1,31 @@
 <template>
-  <div class="slds-box slds-theme_default">
-    <lightning-button
-      label="Click here to start a new game!"
-      onclick={startNewGame}
-    ></lightning-button>
+  <div class="input-interface slds-var-m-vertical_large">
+    <template for:each={pins} for:item="pin">
+      <lightning-button
+        key={pin}
+        label={pin}
+        value={pin}
+        onclick={handleRoll}
+        class="slds-var-m-right_small"
+      ></lightning-button>
+    </template>
+  </div>
+
+  <div class="slds-grid slds-align_absolute-center">
+    <div key={pin} class="frame-box slds-col">
+      <div class="slds-box slds-align_absolute-center">Player</div>
+      <div class="slds-box slds-align_absolute-center"><b>{playerName}</b></div>
+    </div>
+    <template for:each={frames} for:item="frame">
+      <div key={frame.frameNumber} class="frame-box slds-col">
+        <c-frame
+          frame-number={frame.frameNumber}
+          left-score={frame.leftScore}
+          right-score={frame.rightScore}
+          tenth-frame-score={frame}
+          frame-total-score={frame.totalScore}
+        ></c-frame>
+      </div>
+    </template>
   </div>
 </template>

@@ -1,0 +1,20 @@
+<template>
+  <div class="slds-box slds-align_absolute-center"><b>{frameNumber}</b></div>
+  <div class="slds-grid">
+    <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+      {leftScore}
+    </div>
+    <div class="slds-box slds-size_1-of-2 slds-col slds-align_absolute-center">
+      {rightScore}
+    </div>
+    <div
+      class="slds-box slds-col slds-align_absolute-center"
+      if:true={showLastScore}
+    >
+      {tenthFrameScore}
+    </div>
+  </div>
+  <div class="slds-var-p-vertical_medium slds-align_absolute-center">
+    {frameTotalScore}
+  </div>
+</template>

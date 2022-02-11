@@ -1,0 +1,12 @@
+<template>
+  <div class="slds-box slds-theme_default">
+    <lightning-button
+      label="Start a new game 🎳"
+      variant="brand"
+      onclick={startNewGame}
+    ></lightning-button>
+    <div>
+      <c-game player-name={playerName}></c-game>
+    </div>
+  </div>
+</template>
