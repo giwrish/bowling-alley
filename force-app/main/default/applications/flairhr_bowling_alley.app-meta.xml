@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <logo>X1586263619650</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>flair.hr bowling alley</label>
+    <navType>Standard</navType>
+    <tabs>flair_Bowling_Alley</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>flair_hr_bowling_alley_UtilityBar</utilityBar>
+</CustomApplication>
