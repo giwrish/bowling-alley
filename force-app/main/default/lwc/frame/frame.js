@@ -5,5 +5,5 @@ export default class Frame extends LightningElement {
   @api leftScore;
   @api rightScore;
   @api tenthFrameScore;
-  @api frameTotalScore;
+  @api totalScore;
 }
