@@ -1,39 +1,13 @@
 <template>
   <div class="slds-box slds-align_absolute-center"><b>{frameNumber}</b></div>
   <div class="slds-grid">
-    <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
-      {leftScore}
-    </div>
-    <div class="slds-box slds-size_1-of-2 slds-col slds-align_absolute-center">
-      {rightScore}
-    </div>
-    <div
-      class="slds-box slds-col slds-align_absolute-center"
-      if:true={showLastScore}
-    >
-      {tenthFrameScore}
+    <div class={leftScoreClass}>{leftScore}</div>
+    <div class={rightScoreClass}>{rightScore}</div>
+    <div if:true={tenthFrameBox} class={rightScoreClass}>
+      <span if:true={tenthFrameScore}>{tenthFrameScore}</span>
     </div>
   </div>
   <div class="slds-var-p-vertical_medium slds-align_absolute-center">
     {totalScore}
   </div>
-  <!-- 
-  <lightning-layout vertical-align="center" class="">
-    <lightning-layout-item padding="around-small">
-      <b>{frameNumber}</b>
-    </lightning-layout-item>
-    <lightning-layout-item>
-      <lightning-layout horizontal-align="center">
-        <lightning-layout-item padding="around-small">
-          {leftScore}
-        </lightning-layout-item>
-        <lightning-layout-item padding="around-small">
-          {rightScore}
-        </lightning-layout-item>
-      </lightning-layout>
-    </lightning-layout-item>
-    <lightning-layout-item padding="around-small"
-      ><b>{totalScore}</b>
-    </lightning-layout-item>
-  </lightning-layout> -->
 </template>

@@ -15,20 +15,18 @@
     <div class="slds-box slds-align_absolute-center"><b>Player</b></div>
     <div class="slds-box slds-align_absolute-center"><b>{playerName}</b></div>
   </div>
-
+-->
   <div class="slds-grid slds-align_absolute-center">
     <template for:each={frames} for:item="frame">
-      <div key={frame.frameNumber} class="slds-col">
+      <div key={frame.frameNumber} class="slds-col slds-box">
         <c-frame
           frame-number={frame.frameNumber}
-          left-score={frame.viewScore.left}
-          right-score={frame.viewScore.right}
+          left-score={frame.leftScore}
+          right-score={frame.rightScore}
           tenth-frame-score={frame.tenthFrameScore}
           total-score={frame.totalScore}
         ></c-frame>
       </div>
     </template>
-  </div> -->
-
-  {totalScore}
+  </div>
 </template>
