@@ -81,7 +81,6 @@ export default class Game extends NavigationMixin(LightningElement) {
       }
 
       //calculate scores for each frame
-
       if (this.isStrike(frameIdx)) {
         //A strike frame is scored by adding ten, plus the number of pins knocked down by the next two balls, to the score of the previous frame.
         score += 10 + right + next;
@@ -125,8 +124,8 @@ export default class Game extends NavigationMixin(LightningElement) {
         frameNumber: idx + 1,
         leftScore,
         rightScore,
-        // if score is NaN then pass cumulative as undefined so that score won't be visible in frame
-        totalScore: totalScore || undefined
+
+        totalScore: totalScore
       });
     } else {
       // If a strike is thrown in the tenth frame, then the player may throw two more balls to complete the score of the strike.
@@ -169,11 +168,12 @@ export default class Game extends NavigationMixin(LightningElement) {
         return frame.frameNumber === 10;
       }
     );
-
     // check if tenthFrameScore is present, if not then check if left and right score is not more than 10
     if (
-      tenthFrameScore ||
-      (leftScore && rightScore && leftScore + rightScore < 10)
+      (tenthFrameScore !== undefined && tenthFrameScore !== "") ||
+      (leftScore !== undefined &&
+        rightScore !== undefined &&
+        leftScore + rightScore < 10)
     ) {
       this.standingPins = 0;
       await this.finishGame();
