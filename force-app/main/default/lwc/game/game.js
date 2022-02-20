@@ -48,7 +48,7 @@ export default class Game extends LightningElement {
     return this.rolls[frameIdx + 2];
   }
 
-  score() {
+  updateScores() {
     let score = 0;
     let frameIdx = 0;
     this.frames = [];
@@ -69,15 +69,16 @@ export default class Game extends LightningElement {
         this.updateFrames(idx, left, right, score, frameIdx);
         frameIdx += 2;
       }
+      if (!isNaN(score)) {
+        this.totalScore = score;
+      }
     });
-    return score;
   }
 
   rollBall(event) {
     const { value: pins } = event.target;
     this.rolls[this.currentRoll++] = pins;
-    console.log(JSON.stringify(this.rolls));
-    this.totalScore = this.score();
+    this.updateScores();
   }
 
   updateFrames(idx, leftScore, rightScore, totalScore, frameIdx) {

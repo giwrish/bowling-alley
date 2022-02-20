@@ -5,7 +5,12 @@
       variant="brand"
       onclick={startNewGame}
     ></lightning-button>
-    <div>
+
+    <div if:true={showModal}>
+      <c-modal onclose={closeModal} onstart={startGame}></c-modal>
+    </div>
+
+    <div if:true={loadNewGame}>
       <c-game player-name={playerName}></c-game>
     </div>
   </div>

@@ -10,12 +10,12 @@
       ></lightning-button>
     </template>
   </div>
-  <!-- 
+
   <div class="slds-col">
     <div class="slds-box slds-align_absolute-center"><b>Player</b></div>
     <div class="slds-box slds-align_absolute-center"><b>{playerName}</b></div>
   </div>
--->
+
   <div class="slds-grid slds-align_absolute-center">
     <template for:each={frames} for:item="frame">
       <div key={frame.frameNumber} class="slds-col slds-box">
@@ -28,5 +28,11 @@
         ></c-frame>
       </div>
     </template>
+    <div class="slds-col slds-box">
+      <div class="slds-box slds-align_absolute-center"><b>TOTAL</b></div>
+      <div class="slds-var-p-vertical_medium slds-align_absolute-center">
+        {totalScore}
+      </div>
+    </div>
   </div>
 </template>
