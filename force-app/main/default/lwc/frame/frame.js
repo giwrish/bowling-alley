@@ -7,6 +7,14 @@ export default class Frame extends LightningElement {
   @api tenthFrameScore;
   @api totalScore;
 
+  _totalScore;
+  get totalScore() {
+    return isNaN(this._totalScore) ? "" : this._totalScore;
+  }
+  set totalScore(score) {
+    this._totalScore = score;
+  }
+
   get tenthFrameBox() {
     return this.frameNumber === 10;
   }

@@ -26,7 +26,10 @@ export default class Game extends LightningElement {
   totalScore;
 
   isSpare(frameIdx) {
-    return this.rolls[frameIdx] + (this.rolls[frameIdx + 1] ?? 0) === 10;
+    if (this.rolls[frameIdx + 1] === undefined) {
+      return undefined;
+    }
+    return this.rolls[frameIdx] + this.rolls[frameIdx + 1] === 10;
   }
 
   isStrike(frameIdx) {
@@ -55,15 +58,15 @@ export default class Game extends LightningElement {
       const next = this.nextRoll(frameIdx);
       if (this.isStrike(frameIdx)) {
         score += 10 + right + next;
-        this.updateFrames(idx, "", "X", score, next);
+        this.updateFrames(idx, "", "X", score, frameIdx);
         frameIdx++;
       } else if (this.isSpare(frameIdx)) {
         score += 10 + next;
-        this.updateFrames(idx, left, "/", score, next);
+        this.updateFrames(idx, left, "/", score, frameIdx);
         frameIdx += 2;
       } else {
         score += left + right;
-        this.updateFrames(idx, left, right, score, next);
+        this.updateFrames(idx, left, right, score, frameIdx);
         frameIdx += 2;
       }
     });
@@ -77,8 +80,19 @@ export default class Game extends LightningElement {
     this.totalScore = this.score();
   }
 
-  updateFrames(idx, leftScore, rightScore, totalScore, nextScore) {
+  updateFrames(idx, leftScore, rightScore, totalScore, frameIdx) {
     if (idx < 9) {
+      console.log(
+        JSON.parse(
+          JSON.stringify({
+            idx,
+            leftScore,
+            rightScore,
+            totalScore,
+            frameIdx
+          })
+        )
+      );
       this.frames.push({
         frameNumber: idx + 1,
         leftScore,
@@ -89,21 +103,41 @@ export default class Game extends LightningElement {
     } else {
       console.log(
         JSON.parse(
-          JSON.stringify({ idx, leftScore, rightScore, totalScore, nextScore })
+          JSON.stringify({
+            idx,
+            leftScore,
+            rightScore,
+            totalScore,
+            frameIdx
+          })
         )
       );
+      const box1 =
+        this.firstRoll(frameIdx) === 10 ? "X" : this.firstRoll(frameIdx);
+      const box2 =
+        this.secondRoll(frameIdx) === 10
+          ? "X"
+          : this.isSpare(frameIdx)
+          ? "/"
+          : this.secondRoll(frameIdx);
+      let box3;
+      if (this.nextRoll(frameIdx) === 10) {
+        box3 = "X";
+      } else if (
+        this.firstRoll(frameIdx) === 10 ||
+        this.firstRoll(frameIdx) + this.secondRoll(frameIdx) === 10
+      ) {
+        box3 = this.nextRoll(frameIdx);
+      } else {
+        box3 = "";
+      }
       this.frames.push({
         frameNumber: idx + 1,
-        leftScore: leftScore === "" ? "X" : leftScore,
-        rightScore,
+        leftScore: box1,
+        rightScore: box2,
         // if score is NaN then pass cumulative as undefined so that score won't be visible in frame
-        totalScore: totalScore || undefined,
-        tenthFrameScore:
-          nextScore === 10
-            ? "X"
-            : leftScore === 10 || leftScore + rightScore === 10
-            ? nextScore
-            : ""
+        totalScore,
+        tenthFrameScore: box3
       });
     }
   }
