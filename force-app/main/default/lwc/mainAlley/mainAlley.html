@@ -1,31 +1,48 @@
 <template>
   <div class="slds-box slds-theme_default">
-    <lightning-button
-      if:true={showNewGameButton}
-      label="Start a new game 🎳"
-      variant="brand"
-      onclick={startNewGame}
-    ></lightning-button>
+    <div class="slds-align_absolute-center slds-var-p-vertical_medium">
+      <lightning-button
+        if:true={showNewGameButton}
+        label="Start a new game 🎳"
+        variant="brand"
+        onclick={startNewGame}
+      ></lightning-button>
+    </div>
 
     <div if:true={showModal}>
       <c-modal onclose={closeModal} onstart={startGame}></c-modal>
     </div>
 
+    <div if:true={loadNewGame}>
+      <div
+        class="
+          slds-text-heading_large
+          slds-var-p-vertical_medium
+          slds-align_absolute-center
+        "
+      >
+        Welcome
+        <span
+          style="color: rgb(86, 172, 243)"
+          class="slds-var-p-horizontal_medium"
+        >
+          {playerName}
+        </span>
+        to the flair bowling alley, Lets play!!!
+      </div>
+      <c-game player-name={playerName} onrefresh={handleRefresh}></c-game>
+    </div>
+
     <div if:true={loadScoreBoard} class="slds-var-p-vertical_medium">
-      <h1>Scoreboard</h1>
+      <div class="slds-text-heading_large slds-var-p-vertical_small">
+        Scoreboard
+      </div>
       <lightning-datatable
         key-field="game"
         columns={columns}
         data={data}
         hide-checkbox-column
       ></lightning-datatable>
-    </div>
-
-    <div if:true={loadNewGame}>
-      <div class="slds-text-heading_large">
-        Wecome {playerName}, Lets play!!!
-      </div>
-      <c-game player-name={playerName} onreset={handleReset}></c-game>
     </div>
   </div>
 </template>

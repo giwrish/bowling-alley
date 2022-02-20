@@ -1,14 +1,26 @@
 <template>
-  <div class="input-interface slds-var-m-vertical_large">
-    <template for:each={pins} for:item="pin">
-      <lightning-button
-        key={pin}
-        label={pin}
-        value={pin}
-        onclick={rollBall}
-        class="slds-var-m-right_small"
-      ></lightning-button>
-    </template>
+  <lightning-button
+    if:true={showGoToHome}
+    label="Go to 🏠 to start a new game"
+    variant="brand"
+    onclick={goToHome}
+  ></lightning-button>
+  <div class="input-interface slds-var-m-vertical_large slds-grid">
+    <div class="slds-box slds-col slds-size_2-of-12 slds-align_absolute-center">
+      <b>Pins</b>
+    </div>
+    <div class="slds-box slds-col slds-size_10-of-12">
+      <div if:true={message} class="slds-align_absolute-center">{message}</div>
+      <template for:each={pins} for:item="pin">
+        <lightning-button
+          key={pin}
+          label={pin}
+          value={pin}
+          onclick={rollBall}
+          class="slds-var-m-right_small"
+        ></lightning-button>
+      </template>
+    </div>
   </div>
 
   <div class="slds-grid slds-align_absolute-center">

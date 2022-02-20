@@ -5,9 +5,9 @@ export default class Frame extends LightningElement {
   @api leftScore;
   @api rightScore;
   @api tenthFrameScore;
-  @api totalScore;
 
   _totalScore;
+  @api
   get totalScore() {
     return isNaN(this._totalScore) ? "" : this._totalScore;
   }

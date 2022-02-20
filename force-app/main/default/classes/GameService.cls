@@ -24,6 +24,7 @@ public with sharing class GameService {
       return [
         SELECT Id, Name, Total_Score__c, Player__r.Name
         FROM Bowling_Game__c
+        ORDER BY Name DESC
         LIMIT 10
       ];
     } catch (Exception e) {

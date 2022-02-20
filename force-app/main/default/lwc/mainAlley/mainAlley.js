@@ -16,7 +16,13 @@ export default class MainAlley extends LightningElement {
 
   @track data = [];
 
-  async connectedCallback() {
+  connectedCallback() {
+    this.refreshScoreboard();
+  }
+
+  async refreshScoreboard() {
+    this.loadScoreBoard = false;
+    this.data = [];
     const previousScores = await getPreviousScores();
     previousScores.forEach((score) => {
       this.data.push({
@@ -25,7 +31,6 @@ export default class MainAlley extends LightningElement {
         score: score.Total_Score__c
       });
     });
-    console.log(JSON.parse(JSON.stringify(this.data)));
     this.loadScoreBoard = true;
   }
 
@@ -45,7 +50,7 @@ export default class MainAlley extends LightningElement {
     this.showModal = true;
   }
 
-  handleReset() {
-    this.showNewGameButton = true;
+  handleRefresh() {
+    this.refreshScoreboard();
   }
 }
