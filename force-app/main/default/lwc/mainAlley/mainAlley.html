@@ -1,6 +1,7 @@
 <template>
   <div class="slds-box slds-theme_default">
     <lightning-button
+      if:true={showNewGameButton}
       label="Start a new game 🎳"
       variant="brand"
       onclick={startNewGame}
@@ -10,8 +11,21 @@
       <c-modal onclose={closeModal} onstart={startGame}></c-modal>
     </div>
 
+    <div if:true={loadScoreBoard} class="slds-var-p-vertical_medium">
+      <h1>Scoreboard</h1>
+      <lightning-datatable
+        key-field="game"
+        columns={columns}
+        data={data}
+        hide-checkbox-column
+      ></lightning-datatable>
+    </div>
+
     <div if:true={loadNewGame}>
-      <c-game player-name={playerName}></c-game>
+      <div class="slds-text-heading_large">
+        Wecome {playerName}, Lets play!!!
+      </div>
+      <c-game player-name={playerName} onreset={handleReset}></c-game>
     </div>
   </div>
 </template>

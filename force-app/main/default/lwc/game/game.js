@@ -1,4 +1,14 @@
+// Step 1 - build the main logic to calculate the score
+// step 2 - build the UI to show details
+// step 3 - integrate the score with UI
+// step 4 - handle 10th frame 3rd roll
+// step 5 - implement standing pins logic
+// step 6 - store the game score in salesforce object
+// step 7 - load the game score from salesforce objects
+
 import { api, LightningElement, track } from "lwc";
+import getExistingPlayer from "@salesforce/apex/GameService.getExistingPlayer";
+import { createRecord } from "lightning/uiRecordApi";
 
 export default class Game extends LightningElement {
   @api playerName;
@@ -10,7 +20,6 @@ export default class Game extends LightningElement {
     return [...Array(this.standingPins)].map((_, i) => i);
   }
 
-  //reactive properties
   // to store all frames
   @track frames = [...Array(10)].map((_, idx) => {
     return {
@@ -98,8 +107,42 @@ export default class Game extends LightningElement {
       tenthFrameScore ||
       (leftScore && rightScore && leftScore + rightScore < 10)
     ) {
-      alert("game finished");
+      this.finishGame();
+      this.resetGame();
     }
+  }
+
+  resetGame() {
+    this.dispatchEvent(new CustomEvent("reset"));
+  }
+
+  async finishGame() {
+    const playerInfo = await getExistingPlayer({ name: this.playerName });
+    if (playerInfo) {
+      this.saveGame(playerInfo);
+    } else {
+      this.createNewPlayer();
+    }
+  }
+
+  async createNewPlayer() {
+    const newPlayer = await createRecord({
+      apiName: "Contact",
+      fields: { LastName: this.playerName }
+    });
+    this.saveGame({ Id: newPlayer.id });
+  }
+
+  async saveGame(playerInfo) {
+    const { Id: playerId } = playerInfo;
+    const payload = {
+      Player__c: playerId,
+      Total_Score__c: String(this.totalScore)
+    };
+    await createRecord({
+      apiName: "Bowling_Game__c",
+      fields: payload
+    });
   }
 
   updateStandingPins(left, right) {
@@ -146,10 +189,3 @@ export default class Game extends LightningElement {
     }
   }
 }
-
-// Step 1 - build the main logic to calculate the score
-// step 2 - build the UI to show details
-// step 3 - integrate the score with UI
-// step   - handle 10th frame 3rd roll
-// step 4 - store the game score in salesforce object
-// step 5 - load the game score from salesforce object

@@ -11,11 +11,6 @@
     </template>
   </div>
 
-  <div class="slds-col">
-    <div class="slds-box slds-align_absolute-center"><b>Player</b></div>
-    <div class="slds-box slds-align_absolute-center"><b>{playerName}</b></div>
-  </div>
-
   <div class="slds-grid slds-align_absolute-center">
     <template for:each={frames} for:item="frame">
       <div key={frame.frameNumber} class="slds-col slds-box">
