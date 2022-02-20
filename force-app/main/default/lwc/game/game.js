@@ -4,10 +4,10 @@ export default class Game extends LightningElement {
   @api playerName;
 
   //reactive properties
-
+  standingPins = 11;
   //create 11 pin from 0 to 10
   get pins() {
-    return [...Array(11)].map((_, i) => i);
+    return [...Array(this.standingPins)].map((_, i) => i);
   }
 
   //reactive properties
@@ -48,7 +48,7 @@ export default class Game extends LightningElement {
     return this.rolls[frameIdx + 2];
   }
 
-  updateScores() {
+  async updateScores() {
     let score = 0;
     let frameIdx = 0;
     this.frames = [];
@@ -56,6 +56,13 @@ export default class Game extends LightningElement {
       const left = this.firstRoll(frameIdx);
       const right = this.secondRoll(frameIdx);
       const next = this.nextRoll(frameIdx);
+
+      //update the standing pins
+      if (left) {
+        this.updateStandingPins(left, right);
+      }
+
+      //calculate scores for each frame
       if (this.isStrike(frameIdx)) {
         score += 10 + right + next;
         this.updateFrames(idx, "", "X", score, frameIdx);
@@ -69,31 +76,38 @@ export default class Game extends LightningElement {
         this.updateFrames(idx, left, right, score, frameIdx);
         frameIdx += 2;
       }
+
+      //calculate total score of the frame
       if (!isNaN(score)) {
         this.totalScore = score;
       }
     });
   }
 
-  rollBall(event) {
+  async rollBall(event) {
     const { value: pins } = event.target;
     this.rolls[this.currentRoll++] = pins;
-    this.updateScores();
+    await this.updateScores();
+    const { leftScore, rightScore, tenthFrameScore } = this.frames.find(
+      (frame) => {
+        return frame.frameNumber === 10;
+      }
+    );
+
+    if (
+      tenthFrameScore ||
+      (leftScore && rightScore && leftScore + rightScore < 10)
+    ) {
+      alert("game finished");
+    }
+  }
+
+  updateStandingPins(left, right) {
+    this.standingPins = left === 10 || right !== undefined ? 11 : 11 - left;
   }
 
   updateFrames(idx, leftScore, rightScore, totalScore, frameIdx) {
     if (idx < 9) {
-      console.log(
-        JSON.parse(
-          JSON.stringify({
-            idx,
-            leftScore,
-            rightScore,
-            totalScore,
-            frameIdx
-          })
-        )
-      );
       this.frames.push({
         frameNumber: idx + 1,
         leftScore,
@@ -102,17 +116,6 @@ export default class Game extends LightningElement {
         totalScore: totalScore || undefined
       });
     } else {
-      console.log(
-        JSON.parse(
-          JSON.stringify({
-            idx,
-            leftScore,
-            rightScore,
-            totalScore,
-            frameIdx
-          })
-        )
-      );
       const box1 =
         this.firstRoll(frameIdx) === 10 ? "X" : this.firstRoll(frameIdx);
       const box2 =
